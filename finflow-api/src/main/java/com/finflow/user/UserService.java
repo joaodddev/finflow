@@ -1,6 +1,7 @@
 package com.finflow.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.finflow.user.dto.CreateUserRequest;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 public class UserService {
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     public User create(CreateUserRequest request) {
 
@@ -21,7 +23,9 @@ public class UserService {
         User user = User.builder()
                 .name(request.name())
                 .email(request.email())
-                .password(request.password())
+                .password(
+                        passwordEncoder.encode(request.password())
+                )
                 .createdAt(LocalDateTime.now())
                 .build();
 

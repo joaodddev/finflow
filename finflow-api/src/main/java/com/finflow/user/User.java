@@ -3,6 +3,8 @@ package com.finflow.user;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "users")
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 
 public class User {
 
@@ -22,5 +25,8 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }

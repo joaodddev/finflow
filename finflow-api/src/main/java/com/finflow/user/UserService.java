@@ -1,5 +1,6 @@
 package com.finflow.user;
 
+import com.finflow.common.exception.BusinessException;
 import com.finflow.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +19,9 @@ public class UserService {
     public UserResponse create(CreateUserRequest request) {
 
         if(repository.existsByEmail(request.email())) {
-            throw new RuntimeException("Email already exists");
+            throw new BusinessException(
+                    "Email already exists"
+            );
         }
 
         User user = User.builder()

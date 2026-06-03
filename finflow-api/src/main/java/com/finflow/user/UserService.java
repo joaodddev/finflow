@@ -1,5 +1,6 @@
 package com.finflow.user;
 
+import com.finflow.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class UserService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public User create(CreateUserRequest request) {
+    public UserResponse create(CreateUserRequest request) {
 
         if(repository.existsByEmail(request.email())) {
             throw new RuntimeException("Email already exists");
@@ -29,6 +30,13 @@ public class UserService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        return repository.save(user);
+        User savedUser = repository.save(user);
+
+        return new UserResponse(
+                savedUser.getId(),
+                savedUser.getName(),
+                savedUser.getEmail(),
+                savedUser.getCreatedAt()
+        );
     }
 }

@@ -1,5 +1,8 @@
 package com.finflow.user;
 
+import com.finflow.user.dto.UserResponse;
+import com.finflow.user.dto.CreateUserRequest;
+import com.finflow.user.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import com.finflow.user.dto.CreateUserRequest;
-import com.finflow.user.User;
 
 @RestController
 @RequestMapping("/users")
@@ -20,7 +21,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public ResponseEntity<User> create(
+    public ResponseEntity<UserResponse> create(
             @RequestBody @Valid CreateUserRequest request
     ) {
 
